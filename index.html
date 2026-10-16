@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="referrer" content="no-referrer">
+    <meta name="robots" content="noindex, nofollow">
+    <title></title>
+    <style>
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        overflow: hidden;
+        background: #fff;
+      }
+    </style>
+    <script>
+      (() => {
+        const params = new URLSearchParams(window.location.search);
+        const destination = params.get("url");
+        const delayValue = (params.get("delay") ?? "0").replace(",", ".");
+        const delaySeconds = Number.parseFloat(delayValue);
+
+        if (!destination || !Number.isFinite(delaySeconds) || delaySeconds < 0) {
+          return;
+        }
+
+        try {
+          const target = new URL(destination, window.location.href);
+          if (!/^https?:$/.test(target.protocol)) return;
+
+          window.setTimeout(() => {
+            window.location.replace(target.href);
+          }, delaySeconds * 1000);
+        } catch {
+          // Parâmetros inválidos mantêm a tela branca, sem expor mensagens ao visitante.
+        }
+      })();
+    </script>
+  </head>
+  <body></body>
+</html>
+
